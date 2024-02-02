@@ -1,0 +1,9 @@
+.dark_threme {
+  --page-bg-color: #000;
+  --text-color: #fff9ee;
+  --accent-color: #83D350;
+  --shadow-color: #778D45;
+  --muted-color: #666359;
+  --text-color-on-over: #fff9ee;
+  --menu-btn-color: rgb(0, 0, 0, 0.4);
+}

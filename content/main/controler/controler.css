@@ -1,0 +1,155 @@
+.controler {
+  padding: 1%;
+  block-size: 13%;
+  inline-size: 98%;
+  background-color: rgba(0, 0, 0, .5);
+  display: none;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  z-index: 9;
+}
+
+.controler__track {
+  display: flex;
+  gap: 6%;
+  align-items: center;
+  position: absolute;
+  left: 1%;
+  bottom: 14%;
+  z-index: 9;
+}
+
+.controler-img {
+  inline-size: 6vw;
+  block-size: 6vw;
+  object-fit: fill;
+  object-position: center;
+  border-radius: 5%;
+}
+
+.controler__info {
+  max-width: 20vw;
+  block-size: 6vh;
+  width: 12vw;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-wrap: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.controler__info-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--text-color-on-over);
+  font-size: clamp(1rem, 0.868rem + 0.563vw, 1.375rem);
+  max-width: 300px;
+}
+
+.controler__info-autor {
+  position: absolute;
+  bottom: 0;
+  font-size: clamp(0.75rem, 0.618rem + 0.563vw, 1.125rem);
+  font-weight: 300;
+  color: var(--muted-color);
+}
+
+.controler-svg {
+  width: 32px;
+  height: 32px;
+}
+
+.controler__menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  position: absolute;
+  top: 25%;
+  width: 99%;
+}
+
+.controler__play-button {
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  inline-size: 44px;
+  block-size: 44px;
+}
+
+.controler__volume {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4%;
+  position: absolute;
+  right: 2%;
+  bottom: 40%;
+  z-index: 9;
+}
+
+.volume__track {
+  inline-size: 100px;
+  block-size: 5px;
+  background-color: var(--muted-color);
+  position: relative;
+}
+
+.volume__track-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20%;
+  block-size: inherit;
+  background-color: var(--accent-color);
+}
+
+.volume-imput {
+  position: absolute;
+  top: -2.5px;
+  left: 0;
+  block-size: 10px;
+  inline-size: inherit;
+  z-index: 10;
+}
+
+.controler__range {
+  display: flex;
+  gap: 1%;
+  justify-content: center;
+  align-items: center;
+  color: var(--muted-color);
+  font-size: 16px;
+  position: absolute;
+  bottom: 10%;
+  width: 99%;
+}
+
+.progress {
+  width: 35%;
+  height: 10px;
+  border-radius: 5px;
+  background-color: var(--text-color);
+  position: relative;
+}
+
+.time-range {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: inherit;
+  border-radius: 5px;
+  background-color: var(--accent-color);
+}
+
+.time-range-input {
+  position: absolute;
+  top: -2.5px;
+  left: 0;
+  block-size: 16px;
+  inline-size: 100%;
+  z-index: 10;
+}

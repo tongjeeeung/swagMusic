@@ -1,0 +1,63 @@
+.footer {
+  border-top: 1px solid var(--shadow-color);
+  background-color: var(--page-bg-color);
+  padding: 4%;
+  display: flex;
+  flex-direction: column;
+  gap: 5%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.footer-title {
+  cursor: default;
+  font-size: 62px;
+  font-family: 'Caveat';
+  text-shadow: 2px 1px 0 var(--shadow-color);
+  font-weight: bold;
+  margin-block-end: 6%;
+  transition: ease 0.3s;
+}
+
+.footer-title:hover {
+  color: var(--accent-color);
+  text-shadow: 2px 2px 2px var(--shadow-color);
+  transition: ease 0.3s;
+}
+
+.address {
+  color: var(--muted-color);
+  font-size: clamp(0.875rem, 0.787rem + 0.376vw, 1.125rem);
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  transition: ease 0.3s;
+}
+
+.address:hover {
+  color: var(--text-color);
+}
+
+.address-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-icons {
+  position: absolute;
+  bottom: 15px;
+  right: 50px;
+}
+
+.link-icon {
+  inline-size: 34px;
+  block-size: 34px;
+  fill: var(--muted-color);
+  transition: 0.3s;
+}
+
+.link-icon:hover {
+  fill: var(--accent-color);
+  transition: 0.3s;
+}

@@ -1,0 +1,16 @@
+.favorits__track-list {
+  width: 520px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.favorit__item {
+  block-size: 7.2vh;
+}
+
+.favorit-name {
+  width: 230px;
+}

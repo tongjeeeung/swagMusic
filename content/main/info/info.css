@@ -1,0 +1,65 @@
+.info {
+  inline-size: 100%;
+  block-size: 80vh;
+  overflow: hidden;
+  padding-block-end: 1%;
+}
+
+.infoList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  block-size: 100%;
+  inline-size: 240vw;
+  position: relative;
+  left: -980px;
+  transition: all ease 0.5s;
+}
+
+.list-item {
+  block-size: 100%;
+  inline-size: 90vw;
+  position: relative;
+}
+
+.listInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  block-size: 90%;
+}
+
+.listBgImg {
+  position: absolute;
+  object-fit: cover;
+  object-position: center;
+  block-size: 100%;
+  inline-size: 100%;
+  filter: sepia(40%) brightness(50%);
+}
+
+.listInfo {
+  position: absolute;
+  top: 6%;
+  left: 3%;
+  font-size: clamp(0.875rem, 0.295rem + 1.548vw, 1.688rem);
+  color: var(--text-color);
+}
+
+.infoButton {
+  font-family: 'Caveat';
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--text-color);
+  padding: 4%;
+  border: 1px solid var(--shadow-color);
+  font-size: clamp(1.125rem, 0.723rem + 1.071vw, 1.688rem);
+  transition: all ease 0.3s;
+}
+
+.infoButton:hover {
+  text-shadow: 1px 1px 0 var(--shadow-color);
+  border: 1px solid var(--accent-color);
+  transition: all ease 0.3s;
+}

@@ -1,0 +1,8 @@
+.popup_is-opened {
+  display: flex;
+  overflow: auto;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
+  transition: visibility 0s, opacity 0.6s;
+}

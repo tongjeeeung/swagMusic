@@ -1,0 +1,12 @@
+@import url('./info/info.css');
+@import url('./playlists/playlists.css');
+@import url('./popup/popup.css');
+@import url('./popup/popup_is-animated/popup_is-animated.css');
+@import url('./favorits/favorits.css');
+@import url('./controler/controler.css');
+
+.main {
+  background-color: var(--page-bg-color);
+  color: var(--text-color);
+  font-size: clamp(0.875rem, 0.589rem + 1.221vw, 1.688rem);
+}

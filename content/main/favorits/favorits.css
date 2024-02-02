@@ -1,0 +1,53 @@
+@import url('../favorits/favorits__template/favorits__template.css');
+
+.favorits {
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 5%;
+}
+
+.favorit__track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.track__info {
+  position: absolute;
+  top: 80%;
+  left: -100%;
+  transition: left ease-in-out 0.5s;
+}
+
+.track-img {
+  width: 30vw;
+  height: 30vw;
+  object-fit: fill;
+  object-position: center;
+  transition: filter ease 0.3s;
+}
+
+.track-img:hover {
+  filter: brightness(30%);
+  transition: all ease 0.3s;
+}
+
+.track-title {
+  color: var(--text-color-on-over);
+  font-size: clamp(1rem, 0.868rem + 0.563vw, 1.375rem);
+  margin-block-end: 3%;
+}
+
+.track-autor {
+  font-size: clamp(1rem, 0.868rem + 0.563vw, 1.375rem);
+  color: var(--muted-color);
+  font-weight: 300;
+}
+
+.favorit__track-list {
+  max-inline-size: 30vw;
+  max-block-size: 30vw;
+}

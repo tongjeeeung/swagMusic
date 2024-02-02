@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'NotoSans';
+  src:
+    url(./NotoSans-Black.ttf) format('truetype');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  src:
+    url(./NotoSans-Bold.ttf) format('truetype');
+  font-weight: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  src:
+    url(./NotoSans-Light.ttf) format('truetype');
+  font-weight: lighter;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Butcherman';
+  src:
+    url(./Butcherman-Regular.ttf) format('truetype');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Caveat';
+  src:
+    url(./Caveat-Medium.ttf) format('truetype');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Caveat';
+  src:
+    url(./Caveat-Bold.ttf) format('truetype');
+  font-weight: bold;
+  font-display: swap;
+}

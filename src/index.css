@@ -1,0 +1,7 @@
+@import url('../content/light.css');
+@import url('../content/dark.css');
+@import url('../content/header/header.css');
+@import url('../content/main/main.css');
+@import url('../content/footer/footer.css');
+@import url('../content/main/popup/popup_is-opened/popup_is-opened.css');
+@import url('../content/main/controler/controler_is_opened/controler_is_opened.css');

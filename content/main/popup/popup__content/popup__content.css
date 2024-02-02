@@ -1,0 +1,164 @@
+.popup__content {
+  margin: 10px 0;
+  max-width: 60%;
+  width: 100%;
+  min-height: 98%;
+  background-color: var(--page-bg-color);
+  border-radius: 10px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 24px 26px;
+  color: var(--text-color);
+}
+
+.popup__info {
+  max-block-size: 220px;
+  display: flex;
+  gap: 2%;
+}
+
+.popup__info-text {
+  padding-block: 1%;
+  padding-inline-end: 1%;
+}
+
+.popup__img {
+  width: 220px;
+  height: 220px;
+  object-fit: fill;
+  object-position: center;
+}
+
+.popup__about__album {
+  font-size: 14px;
+}
+
+.popup__shuffle {
+  margin-block: 2%;
+  inline-size: 100%;
+  block-size: 7vh;
+  background-color: transparent;
+  border: none;
+  text-align: start;
+  color: var(--text-color);
+  font-family: 'Caveat';
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  gap: 1%;
+  padding: 0;
+}
+
+.popup__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-item {
+  display: flex;
+  justify-content: space-between;
+  inline-size: 100%;
+  block-size: 7vh;
+  text-wrap: nowrap;
+  transition: background-color ease 0.5s;
+}
+
+.popup-part-one,
+.popup-part-two {
+  display: flex;
+  gap: 2%;
+  align-items: center;
+}
+
+.popup-part-two {
+  margin-inline-end: 2%;
+  gap: 15px;
+}
+
+.popup-item:hover {
+  background-color: var(--menu-btn-color);
+  transition: ease 0.5s;
+}
+
+.track-active {
+  background-color: var(--menu-btn-color);
+  transition: ease 0.5s;
+}
+
+.list-autor,
+.list-name,
+.time-track {
+  font-size: clamp(0.875rem, 0.743rem + 0.563vw, 1.25rem);
+  font-weight: 300;
+}
+
+.list-name {
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time-track {
+  color: var(--muted-color);
+}
+
+.play__button,
+.like__button,
+.shuffle__button,
+.prev__button,
+.next__button,
+.repeat__button,
+.volume__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-sizing: content-box;
+}
+
+.popup__shuffle:hover {
+  background-color: var(--menu-btn-color);
+  transition: all ease 0.5s;
+}
+
+.like-svg,
+.shuffle-svg,
+.play-svg,
+.volume-svg,
+.repeat-svg,
+.next-svg,
+.prev-svg {
+  fill: var(--text-color);
+  transition: ease 0.5s;
+}
+
+.like-svg:hover,
+.shuffle-svg:hover,
+.play-svg:hover,
+.volume-svg:hover,
+.repeat-svg:hover,
+.next-svg:hover,
+.prev-svg:hover {
+  fill: var(--shadow-color);
+  transition: ease 0.5s;
+}
+
+.prev-svg {
+  transform: rotate(180deg);
+}
+
+.popup-svg {
+  width: 28px;
+  height: 28px;
+}
+
+.is-active {
+  fill: var(--accent-color);
+  transition: ease 0.5s;
+}
+
+.state-active {
+  fill: var(--accent-color);
+  transition: ease 0.5s;
+}

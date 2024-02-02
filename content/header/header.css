@@ -1,0 +1,56 @@
+.header {
+  block-size: 11vh;
+  background-color: var(--page-bg-color);
+  color: var(--text-color);
+  padding: 2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerMenu {
+  list-style: none;
+  display: flex;
+  gap: 2vw;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-item {
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu-item:hover {
+  color: var(--accent-color);
+  text-shadow: 1px 2px 0 var(--shadow-color);
+  transition: 0.3s;
+}
+
+.titleMenu {
+  cursor: default;
+  font-size: 42px;
+  font-family: 'Caveat';
+  text-shadow: 2px 1px 0 var(--shadow-color);
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.titleMenu:hover {
+  color: var(--accent-color);
+  text-shadow: 2px 2px 2px var(--shadow-color);
+  transition: 0.3s;
+}
+
+.menu-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.menu-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
