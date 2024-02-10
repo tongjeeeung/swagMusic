@@ -52,6 +52,7 @@ let lastAlbum = false;
 let width = 0;
 let trackList = [];
 let showWithd = 0;
+let timer;
 
 const state = {
   audios: [],
@@ -83,6 +84,10 @@ albums.forEach(data => {
 
   if(localStorage.getItem(data[0].albumName) === null) {
     renderAudios(data);
+  }
+
+  if(localStorage.getItem('state') === null) {
+    pushState(state);
   }
 
   let localState = JSON.parse(localStorage.getItem('state'));
@@ -120,7 +125,7 @@ function pushAndLoadTracks(track, list) {
   const audio = new Audio(`../tracks/${track.url}`);
 
   track = {...track, audio};
-  
+
   state.audios.push(track);
   loadAudioData(track, list);
 }
@@ -249,8 +254,6 @@ function visualAudioTime(target, currentTime, width) {
   controlerStartTime.innerHTML = audioTime(currentTime);
   progress.style.width = `${width}%`;
 }
-
-let timer;
 
 function timerTrackShow() {
   timer = setInterval(showFullName, 500);
