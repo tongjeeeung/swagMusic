@@ -69,7 +69,6 @@ let width = 0;
 let trackList = [];
 let showWithd = 0;
 let timer;
-let changeThremeFlag = true;
 
 const state = {
   audios: [],
@@ -115,6 +114,13 @@ function localStorageStateGet() {
 }
 
 localStorageStateGet();
+const renderFavoritsTracks = setTimeout(createTracksList, 4000);
+renderFavoritsTracks;
+
+if(localStorage.getItem(albums[albums.length-1][0].albumName) !== null) {
+  clearTimeout(renderFavoritsTracks);
+  createTracksList();
+}
 
 albums.forEach(data => {
   let album = createAlboms(data);
@@ -123,7 +129,6 @@ albums.forEach(data => {
     renderAudios(data);
   }
 
-  createTracksList(data[0].albumName);
   albomsList.append(album);
 });
 
@@ -302,8 +307,6 @@ controlerVolumeButton.addEventListener('click', () => {
     handleVolume({value: state.lastVolume})
   }
 });
-findFavoritsTrack();
-
 
 controlerTimeInput.addEventListener('mouseup', evt => {
   let progressWight = window.getComputedStyle(controlerDiv.querySelector('.progress')).width.replace(/[a-z%]/gi, '');
@@ -567,10 +570,14 @@ function closeEsc(evt) {
   }
 };
 
-function createTracksList(albumName) {
-  JSON.parse(localStorage.getItem(albumName)).forEach(track => {
-    trackList.push(track);
+function createTracksList() {
+  albums.forEach(data => {
+    JSON.parse(localStorage.getItem(data[0].albumName)).forEach(track => {
+      trackList.push(track);
+    })
   })
+
+  findFavoritsTrack();
 }
 
 function findFavoritsTrack() {
