@@ -1,4 +1,5 @@
 @import url('../favorits/favorits__template/favorits__template.css');
+@import url('../favorits/animation.css');
 
 .favorits {
   padding: 5%;
@@ -13,7 +14,6 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: -2px 2px 5px var(--accent-color);
 }
 
 .track__info {
@@ -51,4 +51,14 @@
 .favorit__track-list {
   max-inline-size: 30vw;
   max-block-size: 30vw;
+}
+
+@media (width > 1440px) {
+  .track-title {
+    font-size: clamp(1rem, 0.727rem + 1.165vw, 2.125rem);
+  }
+  
+  .track-autor {
+    font-size: clamp(1rem, 0.727rem + 1.165vw, 2.125rem);
+  }
 }

@@ -17,16 +17,16 @@
   gap: 2%;
 }
 
-.popup__info-text {
-  padding-block: 1%;
-  padding-inline-end: 1%;
-}
-
 .popup__img {
   width: 220px;
   height: 220px;
   object-fit: fill;
   object-position: center;
+}
+
+.popup__info-text {
+  padding-block: 1%;
+  padding-inline-end: 1%;
 }
 
 .popup__about__album {
@@ -93,7 +93,7 @@
 }
 
 .list-name {
-  width: 300px;
+  width: 30vw;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -161,4 +161,76 @@
 .state-active {
   fill: var(--accent-color);
   transition: ease 0.5s;
+}
+
+@media (width > 1440px) {
+  .popup__info {
+    max-block-size: 330px;
+  }
+
+  .popup__img {
+    width: 330px;
+    height: 330px;
+  }
+
+  .popup__about__album {
+    font-size: 22px;
+  }
+
+  .popup__shuffle {
+    font-size: 44px;
+  }
+
+  .list-autor,
+  .list-name,
+  .time-track {
+    font-size: clamp(1rem, 0.818rem + 0.777vw, 1.75rem);
+  }
+
+  .like-svg,
+  .shuffle-svg,
+  .play-svg,
+  .volume-svg,
+  .repeat-svg,
+  .next-svg,
+  .prev-svg {
+    inline-size: 34px;
+    block-size: 34px;
+  }
+}
+
+@media (1440px > width >= 768px) {
+  popup__info {
+    max-block-size: 150px;
+  }
+
+  .popup__img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .popup__about__album {
+    font-size: 12px;
+  }
+
+  .popup__shuffle {
+    font-size: 22px;
+  }
+
+  .list-autor,
+  .list-name,
+  .time-track {
+    font-size: 14px;
+  }
+
+  .like-svg,
+  .shuffle-svg,
+  .play-svg,
+  .volume-svg,
+  .repeat-svg,
+  .next-svg,
+  .prev-svg {
+    inline-size: 22px;
+    block-size: 22px;
+  }
 }

@@ -2,11 +2,27 @@ import { timeEr } from './content/slider.js';
 import { albums } from './tracks.js';
 import { pushLocalStorage, findTracks, pushLikeToLS, pushState, pushListenTimes } from './content/localstorage.js';
 
-const changeThreme = document.querySelector('.menu-logo');
+const changeThremeButton = document.querySelector('.menu-logo');
 
-changeThreme.addEventListener('click', evt => {
-  document.querySelector('body').classList.toggle('dark_threme');
-})
+changeThremeButton.addEventListener('click', () => changeThreme())
+
+function changeThreme() {
+  if(document.querySelector('body').classList.value == '') {
+    document.querySelector('body').classList.add('light_threme');
+    state.threme = 'light_threme';
+  }
+  else if(document.querySelector('body').classList.value == 'light_threme') {
+    document.querySelector('body').classList.remove('light_threme');
+    document.querySelector('body').classList.add('dark_threme');
+    state.threme = 'dark_threme';
+  }
+  else {
+    document.querySelector('body').classList.remove('dark_threme');
+    state.threme = '';
+  }
+
+  pushState(state);
+}
 
 const infoUl = document.querySelector('.infoList');
 
@@ -53,6 +69,7 @@ let width = 0;
 let trackList = [];
 let showWithd = 0;
 let timer;
+let changeThremeFlag = true;
 
 const state = {
   audios: [],
@@ -62,6 +79,7 @@ const state = {
   playing: true,
   volume: 0.2,
   lastVolume: 0,
+  threme: '',
 }
 
 function createAlboms(item) {
@@ -79,13 +97,7 @@ function createAlboms(item) {
   return (albumElement);
 }
 
-albums.forEach(data => {
-  let album = createAlboms(data);
-
-  if(localStorage.getItem(data[0].albumName) === null) {
-    renderAudios(data);
-  }
-
+function localStorageStateGet() {
   if(localStorage.getItem('state') === null) {
     pushState(state);
   }
@@ -95,6 +107,21 @@ albums.forEach(data => {
   state.shuffle = localState[0].shuffle;
   state.volume = localState[0].volume;
   state.lastVolume = localState[0].lastVolume;
+  state.threme = localState[0].threme;
+
+  if(localState[0].threme != '') {
+    document.querySelector('body').classList.add(state.threme);
+  }
+}
+
+localStorageStateGet();
+
+albums.forEach(data => {
+  let album = createAlboms(data);
+
+  if(localStorage.getItem(data[0].albumName) === null) {
+    renderAudios(data);
+  }
 
   createTracksList(data[0].albumName);
   albomsList.append(album);
@@ -255,8 +282,8 @@ function visualAudioTime(target, currentTime, width) {
   progress.style.width = `${width}%`;
 }
 
-function timerTrackShow() {
-  timer = setInterval(showFullName, 500);
+function timerTrackShow(widthName) {
+  timer = setInterval(showFullName, 50, (widthName));
 }
 
 controlerPlayButton.addEventListener('click', () => handleAudioPlay());
@@ -264,12 +291,6 @@ controlerNextButton.addEventListener('click', () => checkShuffleActive());
 controlerPrevButton.addEventListener('click', () => handlePrev());
 controlerRepeatButton.addEventListener('click', () => handleRepeat(controlerRepeatButton));
 controlerShuffleButton.addEventListener('click', () => nandleShuffleActive());
-controlerName.addEventListener('mouseover', () => timerTrackShow());
-controlerName.addEventListener('mouseout', () => {
-  showWithd = 0;
-  controlerName.style.left = -showWithd + 'px';
-  clearTimeout(timer)
-});
 popupShuffleButton.addEventListener('click', () => nandleShuffleActive());
 controlerLikeButton.addEventListener('click', () => setLikeTrack(state.current));
 controlerVolumeButton.addEventListener('click', () => {
@@ -283,8 +304,11 @@ controlerVolumeButton.addEventListener('click', () => {
 });
 findFavoritsTrack();
 
+
 controlerTimeInput.addEventListener('mouseup', evt => {
-  width = evt.layerX / 499 * 100;
+  let progressWight = window.getComputedStyle(controlerDiv.querySelector('.progress')).width.replace(/[a-z%]/gi, '');
+  console.log(progressWight)
+  width = evt.layerX / progressWight * 100;
   let time = width * state.current.duration / 100;
   visualAudioTime(state.current.audio, time, width);
 })
@@ -297,12 +321,11 @@ controlerVolumeNewImput.addEventListener('mouseup', evt => {
   controlerVolumeValue.style.width = evt.layerX + 'px';
 })
 
-function showFullName() {
-  showWithd += 6;
+function showFullName(widthName) {
+  showWithd += 2;
   controlerName.style.left = -showWithd + 'px';
-
-  if(showWithd > 120) {
-    showWithd = -100;
+  if(controlerName.style.left.replace(/[a-z%]/gi, '') * -1 >= widthName + 12) {
+    showWithd = -widthName;
   }
 }
 
@@ -478,6 +501,17 @@ function renderCurrentItem(audio) {
   controlerAutor.textContent = autor;
   controlerName.textContent = name;
   controlerEndTime.textContent = audioTime(duration);
+
+  showWithd = 0;
+  controlerName.style.left = -showWithd + 'px';
+  clearTimeout(timer)
+
+  let widthName = window.getComputedStyle(controlerName).width.replace(/[a-z%]/gi, '');
+  let widthInfoBox = window.getComputedStyle(controlerDiv.querySelector('.controler__info')).width.replace(/[a-z%]/gi, '');
+
+  if(Number(widthName) > Number(widthInfoBox)) {
+    timerTrackShow(widthName, widthInfoBox);
+  }
 
   controlerDiv.classList.add('controler_is_opened');
 }

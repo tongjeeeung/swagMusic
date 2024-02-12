@@ -1,21 +1,23 @@
 import {infoUl} from '../index.js';
 
-let leftPosition = 980;
+let widthInfoImg = 100;
+
+let leftPosition = widthInfoImg;
 let Flag = true;
 
 function timeEr() {
-  if(leftPosition < 980*2 & Flag) {
-    leftPosition += 980;
+  if(leftPosition < widthInfoImg * 2 & Flag) {
+    leftPosition += widthInfoImg;
     Flag = false;
   }
   else if(leftPosition > 0) {
-    leftPosition -= 980;
+    leftPosition -= widthInfoImg;
   }
   else {
-    leftPosition += 980;
+    leftPosition += widthInfoImg;
     Flag = true;
   }
-  infoUl.style.left = -leftPosition + 'px';
+  infoUl.style.left = -leftPosition + 'vw';
 }
 
 const favoritImg = document.querySelector('.track-img');

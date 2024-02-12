@@ -17,7 +17,7 @@
 }
 
 .menu-item {
-  font-size: 22px;
+  font-size: clamp(0.875rem, 0.602rem + 1.165vw, 2rem);
   cursor: pointer;
   transition: 0.3s;
 }
@@ -30,7 +30,7 @@
 
 .titleMenu {
   cursor: default;
-  font-size: 42px;
+  font-size: clamp(1.75rem, 1.174rem + 2.46vw, 4.125rem);
   font-family: 'Caveat';
   text-shadow: 2px 1px 0 var(--shadow-color);
   font-weight: bold;
@@ -39,7 +39,7 @@
 
 .titleMenu:hover {
   color: var(--accent-color);
-  text-shadow: 2px 2px 2px var(--shadow-color);
+  text-shadow: 2px 2px 5px var(--shadow-color);
   transition: 0.3s;
 }
 
@@ -53,4 +53,28 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
+}
+
+@media (width > 1440px) {
+  .menu-logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .menu-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .menu-item:hover {
+    text-shadow: 2px 2px 0 var(--shadow-color);
+  }
+  
+  .titleMenu {
+    text-shadow: 3px 2px 0 var(--shadow-color);
+  }
+  
+  .titleMenu:hover {
+    text-shadow: 3px 2px 5px var(--shadow-color);
+  }
 }

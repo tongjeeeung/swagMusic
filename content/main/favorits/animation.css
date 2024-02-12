@@ -1,0 +1,21 @@
+.favorit__track {
+  animation: shadowCircle 10s ease-in-out infinite;
+}
+
+@keyframes shadowCircle {
+  0% {
+    box-shadow: -2px 2px 5px var(--accent-color);
+  }
+  25% {
+    box-shadow: -2px -2px 5px var(--accent-color);
+  }
+  50% {
+    box-shadow: 2px -2px 5px var(--accent-color);
+  }
+  75% {
+    box-shadow: 2px 2px 5px var(--accent-color);
+  }
+  100% {
+    box-shadow: -2px 2px 5px var(--accent-color);
+  }
+}

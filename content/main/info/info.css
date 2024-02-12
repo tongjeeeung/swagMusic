@@ -11,15 +11,15 @@
   align-items: center;
   list-style: none;
   block-size: 100%;
-  inline-size: 240vw;
+  inline-size: 300vw;
+  left: -100vw;
   position: relative;
-  left: -980px;
   transition: all ease 0.5s;
 }
 
 .list-item {
   block-size: 100%;
-  inline-size: 90vw;
+  inline-size: 100%;
   position: relative;
 }
 
@@ -54,7 +54,7 @@
   color: var(--text-color);
   padding: 4%;
   border: 1px solid var(--shadow-color);
-  font-size: clamp(1.125rem, 0.723rem + 1.071vw, 1.688rem);
+  font-size: clamp(1.125rem, 0.852rem + 1.165vw, 2.25rem);
   transition: all ease 0.3s;
 }
 
@@ -62,4 +62,27 @@
   text-shadow: 1px 1px 0 var(--shadow-color);
   border: 1px solid var(--accent-color);
   transition: all ease 0.3s;
+}
+
+@media (width > 1440px) {
+  .listInfo {
+    font-size: clamp(1.25rem, 0.886rem + 1.553vw, 2.75rem);
+  }
+
+  .infoButton {
+    inline-size: 15vw;
+    block-size: 6vh;
+    border: 2px solid var(--shadow-color);
+  }
+}
+
+@media (1440px > width >= 768px) {
+  .info {
+    block-size: 50vh;
+  }
+  
+  .infoButton {
+    inline-size: 20vw;
+    block-size: 5vh;
+  }
 }

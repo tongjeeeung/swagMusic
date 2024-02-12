@@ -8,9 +8,33 @@
 }
 
 .favorit__item {
-  block-size: 7.2vh;
+  block-size: 3.8vw;
 }
 
 .favorit-name {
   width: 230px;
+}
+
+@media (width > 1440px) {
+  .favorits__track-list {
+    width: 720px;
+  }
+
+  .favorit-name {
+    width: 360px;
+  }
+}
+
+@media (1440px > width >= 768px) {
+  .favorit__item {
+    block-size: 3.4vw;
+  }
+
+  .favorits__track-list {
+    width: 420px;
+  }
+
+  .favorit-name {
+    width: 160px;
+  }
 }
