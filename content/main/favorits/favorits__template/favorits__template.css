@@ -21,7 +21,7 @@
   }
 
   .favorit-name {
-    width: 360px;
+    width: 310px;
   }
 }
 
@@ -36,5 +36,26 @@
 
   .favorit-name {
     width: 160px;
+  }
+}
+
+@media (width < 768px) {
+  .favorit__item {
+    block-size: 3.4vw;
+  }
+
+  .favorits__track-list {
+    width: 60%;
+    gap: 4px;
+  }
+
+  .favorit-name {
+    width: 60px;
+  }
+
+  .favorit-executor {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

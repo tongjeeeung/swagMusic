@@ -61,3 +61,31 @@
   fill: var(--accent-color);
   transition: 0.3s;
 }
+
+@media (width < 768px) {
+  .footer {
+    padding: 0;
+    padding-block: 2%;
+    padding-inline: 1%;
+    gap: 2%;
+  }
+
+  .footer-title {
+    font-size: 52px;
+    margin-block-end: 26%;
+  }
+
+  .address {
+    left: 10px;
+  }
+
+  .footer-icons {
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .link-icon {
+    inline-size: 24px;
+    block-size: 24px;
+  }
+}

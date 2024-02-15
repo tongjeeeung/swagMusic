@@ -9,12 +9,12 @@
   margin-block-end: 4%;
   text-shadow: 2px 2px 0 var(--shadow-color);
   font-family: 'Caveat';
-  font-size: clamp(1.375rem, 0.847rem + 2.254vw, 2.875rem);
+  font-size: clamp(1.5rem, 0.863rem + 2.718vw, 4.125rem);
 }
 
 .playlist__list {
   display: flex;
-  justify-content: start;
+  justify-content: space-evenly;
   gap: 4%;
   flex-wrap: wrap;
 }
@@ -56,17 +56,13 @@
 }
 
 @media (width > 1440px) {
-  .playlists-title {
-    font-size: clamp(1.5rem, 0.863rem + 2.718vw, 4.125rem);
-  }
-
   .playlist-img {
     block-size: 330px;
     inline-size: 330px;
   }
 
   .playlist-item .playlist-title {
-    max-width: 330px;
+    max-width: 320px;
     text-align: center;
   }
 
@@ -76,5 +72,25 @@
   
   .playlist-autor {
     font-size: clamp(1.125rem, 1.064rem + 0.259vw, 1.375rem);
+  }
+}
+
+@media (width < 768px) {
+  .playlist-img {
+    block-size: 100px;
+    inline-size: 100px;
+  }
+
+  .playlist-item .playlist-title {
+    max-width: 100px;
+    text-align: center;
+  }
+
+  .playlist-title {
+    font-size: 14px;
+  }
+  
+  .playlist-autor {
+    font-size: 12px;
   }
 }

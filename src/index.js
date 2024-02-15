@@ -1,28 +1,11 @@
 import { timeEr } from './content/slider.js';
 import { albums } from './tracks.js';
-import { pushLocalStorage, findTracks, pushLikeToLS, pushState, pushListenTimes } from './content/localstorage.js';
+import { changeThreme } from './content/cheangeThreme.js';
+import { pushLocalStorage, findTracks, pushLikeToLS, pushState, pushListenTimes, pushAddedAlbum } from './content/localstorage.js';
+import { controlerHide } from './content/controler.js';
 
 const changeThremeButton = document.querySelector('.menu-logo');
-
 changeThremeButton.addEventListener('click', () => changeThreme())
-
-function changeThreme() {
-  if(document.querySelector('body').classList.value == '') {
-    document.querySelector('body').classList.add('light_threme');
-    state.threme = 'light_threme';
-  }
-  else if(document.querySelector('body').classList.value == 'light_threme') {
-    document.querySelector('body').classList.remove('light_threme');
-    document.querySelector('body').classList.add('dark_threme');
-    state.threme = 'dark_threme';
-  }
-  else {
-    document.querySelector('body').classList.remove('dark_threme');
-    state.threme = '';
-  }
-
-  pushState(state);
-}
 
 const infoUl = document.querySelector('.infoList');
 
@@ -33,6 +16,7 @@ const albumTemplate = document.querySelector('#album-template').content;
 const trackTemplate = document.querySelector('#track-template').content;
 const trackFavoritsTemplate = document.querySelector('#favorit__track-template').content;
 const popupAlbum = document.querySelector('.popup-playlist');
+const popupAddRemoveButton = popupAlbum.querySelector('.popup__button-add');
 const popupList = popupAlbum.querySelector('.popup__list');
 const popupImg = popupAlbum.querySelector('.popup__img');
 const popupTitle = popupAlbum.querySelector('.playlist-title');
@@ -86,12 +70,12 @@ function createAlboms(item) {
   const albumImg = albumElement.querySelector('.playlist-img');
   const albumTitle = albumElement.querySelector('.playlist-title');
   const albumAutor = albumElement.querySelector('.playlist-autor');
+  
+  albumImg.src = `../images/${item.link}`;
+  albumTitle.textContent = item.albumName;
+  albumAutor.textContent = item.executor;
 
-  albumImg.src = `../images/${item[0].link}`;
-  albumTitle.textContent = item[0].albumName;
-  albumAutor.textContent = item[0].executor;
-
-  albumImg.addEventListener('click', () => openPopup(item[0].link, item[0].albumName, item[0].executor))
+  albumImg.addEventListener('click', () => openPopup(item))
 
   return (albumElement);
 }
@@ -123,14 +107,24 @@ if(localStorage.getItem(albums[albums.length-1][0].albumName) !== null) {
 }
 
 albums.forEach(data => {
-  let album = createAlboms(data);
-
   if(localStorage.getItem(data[0].albumName) === null) {
     renderAudios(data);
   }
-
-  albomsList.append(album);
 });
+
+findAddedAlbums()
+
+function findAddedAlbums() {
+  if(JSON.parse(localStorage.getItem('addedAlbums')).length != 0) {
+    JSON.parse(localStorage.getItem('addedAlbums')).forEach(data => {
+      let album = createAlboms(data);
+      albomsList.append(album);
+    })
+  }
+  else {
+
+  }
+}
 
 popupAlbum.addEventListener('click', evt => {
   if(evt.target === popupAlbum) {
@@ -307,6 +301,21 @@ controlerVolumeButton.addEventListener('click', () => {
     handleVolume({value: state.lastVolume})
   }
 });
+popupAddRemoveButton.addEventListener('click', () => {
+  visualButtonAddRemove();
+  pushAddedAlbum({link: popupImg.src.substring(popupImg.src.lastIndexOf('/')+1),albumName: popupTitle.textContent,executor: popupAutor.textContent})
+})
+
+function visualButtonAddRemove() {
+  if(popupAddRemoveButton.textContent === 'add') {
+    popupAddRemoveButton.textContent = 'remove';
+    popupAddRemoveButton.classList.add('.popup__button-remove');
+  }
+  else {
+    popupAddRemoveButton.textContent = 'add';
+    popupAddRemoveButton.classList.remove('.popup__button-remove');
+  }
+}
 
 controlerTimeInput.addEventListener('mouseup', evt => {
   let progressWight = window.getComputedStyle(controlerDiv.querySelector('.progress')).width.replace(/[a-z%]/gi, '');
@@ -517,6 +526,7 @@ function renderCurrentItem(audio) {
   }
 
   controlerDiv.classList.add('controler_is_opened');
+  controlerHide();
 }
 
 function audioTime(duration) {
@@ -526,11 +536,11 @@ function audioTime(duration) {
   return `${minutes}:${seconds}`;
 };
 
-function openPopup(src, name, autor) {
-  if(lastAlbum !== name) {
-    popupImg.src = `../images/${src}`;
-    popupTitle.textContent = name;
-    popupAutor.textContent = autor;
+function openPopup({link, albumName, executor}) {
+  if(lastAlbum !== albumName) {
+    popupImg.src = `../images/${link}`;
+    popupTitle.textContent = albumName;
+    popupAutor.textContent = executor;
 
     const { children } = popupList;
     let albumLength = children.length;
@@ -538,6 +548,15 @@ function openPopup(src, name, autor) {
       popupList.querySelector('.popup-item').remove();
     }
 
+    lastAlbum = albumName;
+    if(JSON.parse(localStorage.getItem('addedAlbums')).find(({ albumName }) => albumName == lastAlbum) != undefined) {
+      popupAddRemoveButton.textContent = 'remove';
+      popupAddRemoveButton.classList.add('.popup__button-remove');
+    }
+    else {
+      popupAddRemoveButton.textContent = 'add';
+      popupAddRemoveButton.classList.remove('.popup__button-remove');
+    }
     /*if(localStorage.getItem(name) === null) {
       albums.forEach(item => {
         if(item[0].albumName === name) {
@@ -549,12 +568,10 @@ function openPopup(src, name, autor) {
       findTracks(name);
     }*/
 
-    findTracks(name);
-    lastAlbum = name;
+    findTracks(albumName);
   }
 
   popupAlbum.classList.add('popup_is-opened');
-
   document.addEventListener('keydown', closeEsc);
 }
 

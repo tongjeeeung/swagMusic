@@ -62,3 +62,21 @@
     font-size: clamp(1rem, 0.727rem + 1.165vw, 2.125rem);
   }
 }
+
+@media (width < 768px) {
+  .favorits {
+    gap: 2%;
+  }
+
+  .track__info {
+    top: 50%;
+  }
+
+  .track-title {
+    font-size: clamp(1rem, 0.727rem + 1.165vw, 2.125rem);
+  }
+  
+  .track-autor {
+    font-size: clamp(1rem, 0.727rem + 1.165vw, 2.125rem);
+  }
+}

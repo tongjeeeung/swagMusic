@@ -33,44 +33,9 @@
     </ul>
   </header>
   <main class="main">
-    <section class="info">
-      <ul class="infoList">
-        <li class="list-item">
-          <img class="listBgImg" src="../images/skateFirst.avif">
-          <div class="listInfo">
-            <span class="infoTitle">New tracks</span>
-            <button class="infoButton">Listen</button>
-          </div>
-        </li>
-        <li class="list-item">
-          <img class="listBgImg" src="../images/japanSecond.avif">
-          <div class="listInfo">
-            <span class="infoTitle">Nigth vibe</span>
-            <button class="infoButton">Listen</button>
-          </div>
-        </li>
-        <li class="list-item">
-          <img class="listBgImg" src="../images/fallThird.avif">
-          <div class="listInfo">
-            <span class="infoTitle">Dirdy music</span>
-            <button class="infoButton">Listen</button>
-          </div>
-        </li>
-      </ul>
-    </section>
     <section class="playlists">
       <h1 class="playlists-title">Your MuSSSiC</h1>
       <ul class="playlist__list"></ul>
-    </section>
-    <section class="favorits">
-      <div class="favorit__track">
-        <img class="track-img" src="../images/Superheaven.jpeg" alt=""/>
-        <div class="track__info">
-          <h4 class="track-title">Jar</h4>
-          <h5 class="track-autor">Superheaven</h5>
-        </div>
-      </div>
-      <ul class="favorits__track-list"></ul>
     </section>
   </main>
   <footer class="footer">
@@ -208,28 +173,6 @@
     </li>
   </template>
 
-  <template id="favorit__track-template">
-    <li class="popup-item favorit__item">
-      <div class="popup-part-one">
-        <button class="play__button popup__play-button">
-          <svg class="play-svg popup-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <use href="../svg/play.svg#play"></use>
-          </svg>
-        </button>
-        <h4 class="list-autor favorit-executor">Superheaven</h4>
-        <span>-</span>
-        <h5 class="list-name favorit-name">Crawl</h5>
-      </div>
-      <div class="popup-part-two">
-        <button class="like__button popup__like-button">
-          <svg class="like-svg popup-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <use href="../svg/heart.svg#heart"></use>
-          </svg>
-        </button>
-        <span class="time-track">3:12</span>
-      </div>
-    </li>
-  </template>
   <script type="module" src="./index.js"></script>
 </body>
 </html>

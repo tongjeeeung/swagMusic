@@ -8,6 +8,20 @@ function getFromLocalStorage(keyName) {
   return [];
 }
 
+function pushAddedAlbum(AlbumObject) {
+  let albums = getFromLocalStorage('addedAlbums');
+  let index = albums.findIndex(({ albumName }) => AlbumObject.albumName === albumName);
+
+  if(index === -1) {
+    albums.push(AlbumObject);
+  }
+  else {
+    albums.splice(index, 1)
+  }
+
+  localStorage.setItem('addedAlbums', JSON.stringify(albums))
+}
+
 function pushLocalStorage(audioObject) {
   let tracks = getFromLocalStorage(audioObject.album);
   let index = tracks.findIndex(({ name }) => audioObject.name === name);
@@ -53,4 +67,4 @@ function findTracks(albumName) {
   });
 };
 
-export { pushLocalStorage, findTracks, pushLikeToLS, pushState, pushListenTimes };
+export { pushLocalStorage, findTracks, pushLikeToLS, pushState, pushListenTimes, pushAddedAlbum };

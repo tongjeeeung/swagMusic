@@ -86,3 +86,14 @@
     block-size: 5vh;
   }
 }
+
+@media (width < 768px) {
+  .info {
+    block-size: 30vh;
+  }
+  
+  .infoButton {
+    inline-size: 20vw;
+    block-size: 3.5vh;
+  }
+}

@@ -30,7 +30,8 @@
 
 .titleMenu {
   cursor: default;
-  font-size: clamp(1.75rem, 1.174rem + 2.46vw, 4.125rem);
+  font-size: clamp(1rem, 0.15rem + 3.625vw, 4.5rem);
+  text-align: center;
   font-family: 'Caveat';
   text-shadow: 2px 1px 0 var(--shadow-color);
   font-weight: bold;
@@ -76,5 +77,38 @@
   
   .titleMenu:hover {
     text-shadow: 3px 2px 5px var(--shadow-color);
+  }
+}
+
+@media (width < 768px) {
+  .menu-logo {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .menu-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header div {
+    gap: 0;
+    margin-inline: 4px;
+  }
+
+  .headerMenu {
+    gap: 4px;
+  }
+
+  .menu-item:hover {
+    text-shadow: 1px 1px 0 var(--shadow-color);
+  }
+  
+  .titleMenu {
+    text-shadow: 2px 1px 0 var(--shadow-color);
+  }
+  
+  .titleMenu:hover {
+    text-shadow: 2px 1px 3px var(--shadow-color);
   }
 }
