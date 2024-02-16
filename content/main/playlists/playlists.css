@@ -19,6 +19,13 @@
   flex-wrap: wrap;
 }
 
+.playlist__list-all {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 4%;
+  flex-wrap: wrap;
+}
+
 .playlist-item {
   cursor: default;
   list-style: none;

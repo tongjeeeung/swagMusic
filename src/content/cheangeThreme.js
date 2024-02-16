@@ -1,4 +1,4 @@
-function changeThreme() {
+function changeThreme(state, pushState) {
   if(document.querySelector('body').classList.value == '') {
     document.querySelector('body').classList.add('light_threme');
     state.threme = 'light_threme';

@@ -16,8 +16,8 @@
 <body>
   <header class="header">
     <ul class="headerMenu">
-      <li class="menu-item">Home</li>
-      <li class="menu-item">Playlist</li>
+      <li class="menu-item" id="header-home">Home</li>
+      <li class="menu-item" id="header-playlists">Playlist</li>
       <li class="menu-item">Search</li>
     </ul>
     <div class="headerMenu">
@@ -33,7 +33,7 @@
     </ul>
   </header>
   <main class="main">
-    <section class="info">
+    <section class="info" id="info">
       <ul class="infoList">
         <li class="list-item">
           <img class="listBgImg" src="../images/skateFirst.avif">
@@ -58,11 +58,11 @@
         </li>
       </ul>
     </section>
-    <section class="playlists">
+    <section class="playlists" id="your-playlists">
       <h1 class="playlists-title">Your MuSSSiC</h1>
       <ul class="playlist__list"></ul>
     </section>
-    <section class="favorits">
+    <section class="favorits" id="favorits">
       <div class="favorit__track">
         <img class="track-img" src="../images/Superheaven.jpeg" alt=""/>
         <div class="track__info">
@@ -71,6 +71,10 @@
         </div>
       </div>
       <ul class="favorits__track-list"></ul>
+    </section>
+    <section class="playlists all-playlists" style="display: none;">
+      <h1 class="playlists-title">All MuSSSiC</h1>
+      <ul class="playlist__list"></ul>
     </section>
   </main>
   <footer class="footer">

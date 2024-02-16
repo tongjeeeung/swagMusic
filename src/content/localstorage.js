@@ -61,9 +61,9 @@ function pushListenTimes(audioObject) {
   localStorage.setItem(audioObject.album, JSON.stringify(trackList));
 }
 
-function findTracks(albumName) {
+function findTracks(albumName, list, state) {
   JSON.parse(localStorage.getItem(albumName)).forEach(newItem => {
-    pushAndLoadTracks(newItem, popupList);
+    pushAndLoadTracks(newItem, list, state);
   });
 };
 

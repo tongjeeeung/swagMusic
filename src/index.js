@@ -1,20 +1,21 @@
 import { timeEr } from './content/slider.js';
 import { albums } from './tracks.js';
-import { changeThreme } from './content/cheangeThreme.js';
+import { changeThreme } from './content/cheangeThreme.js'
 import { pushLocalStorage, findTracks, pushLikeToLS, pushState, pushListenTimes, pushAddedAlbum } from './content/localstorage.js';
 import { controlerHide } from './content/controler.js';
 
 const changeThremeButton = document.querySelector('.menu-logo');
-changeThremeButton.addEventListener('click', () => changeThreme())
 
 const infoUl = document.querySelector('.infoList');
 
 setInterval(timeEr, 10000);
 
+const infoSection = document.getElementById('info');
+const yourPlaylistsSection = document.getElementById('your-playlists');
+const favoritsSection = document.getElementById('favorits');
+const allPlaylistSection = document.querySelector('.all-playlists');
+
 const albomsList = document.querySelector('.playlist__list');
-const albumTemplate = document.querySelector('#album-template').content;
-const trackTemplate = document.querySelector('#track-template').content;
-const trackFavoritsTemplate = document.querySelector('#favorit__track-template').content;
 const popupAlbum = document.querySelector('.popup-playlist');
 const popupAddRemoveButton = popupAlbum.querySelector('.popup__button-add');
 const popupList = popupAlbum.querySelector('.popup__list');
@@ -23,11 +24,6 @@ const popupTitle = popupAlbum.querySelector('.playlist-title');
 const popupAutor = popupAlbum.querySelector('.playlist-autor');
 const popupShuffleButton = popupAlbum.querySelector('.popup__shuffle');
 const controlerDiv = document.querySelector('.controler');
-const controlerImg = controlerDiv.querySelector('.controler-img');
-const controlerName = controlerDiv.querySelector('.controler__info-title');
-const controlerAutor = controlerDiv.querySelector('.controler__info-autor');
-const controlerStartTime = controlerDiv.querySelector('.time-this');
-const controlerEndTime = controlerDiv.querySelector('.time-all');
 const controlerTimeInput = controlerDiv.querySelector('.time-range-input');
 
 const controlerPlayButton = controlerDiv.querySelector('.controler__play-button');
@@ -42,7 +38,9 @@ const controlerVolumeNewImput = controlerDiv.querySelector('.volume-imput');
 const controlerVolumeValue = controlerDiv.querySelector('.volume__track-value');
 
 const favoritsTrackList = document.querySelector('.favorits__track-list');
-const favoritsImgBlock = document.querySelector('.favorit__track');
+
+const headerPlaylistsButton = document.getElementById('header-playlists');
+const headerHomeButton = document.getElementById('header-home');
 
 let svgPlay = `<use href="../svg/play.svg#play"></use>`;
 let svgPause = `<use href="../svg/pause.svg#pause"></use>`;
@@ -66,6 +64,7 @@ const state = {
 }
 
 function createAlboms(item) {
+  const albumTemplate = document.querySelector('#album-template').content;
   const albumElement = albumTemplate.querySelector('.playlist-item').cloneNode(true);
   const albumImg = albumElement.querySelector('.playlist-img');
   const albumTitle = albumElement.querySelector('.playlist-title');
@@ -75,14 +74,15 @@ function createAlboms(item) {
   albumTitle.textContent = item.albumName;
   albumAutor.textContent = item.executor;
 
-  albumImg.addEventListener('click', () => openPopup(item))
+  albumImg.addEventListener('click', () => openPopup(item, popupList, state))
 
   return (albumElement);
 }
 
-function localStorageStateGet() {
+function localStorageStateGet(state) {
   if(localStorage.getItem('state') === null) {
     pushState(state);
+    localStorage.setItem('addedAlbums', JSON.stringify([]));
   }
 
   let localState = JSON.parse(localStorage.getItem('state'));
@@ -97,32 +97,62 @@ function localStorageStateGet() {
   }
 }
 
-localStorageStateGet();
-const renderFavoritsTracks = setTimeout(createTracksList, 4000);
+localStorageStateGet(state);
+const renderFavoritsTracks = setTimeout(createTracksList, 4000, (albums));
 renderFavoritsTracks;
 
 if(localStorage.getItem(albums[albums.length-1][0].albumName) !== null) {
   clearTimeout(renderFavoritsTracks);
-  createTracksList();
+  createTracksList(albums);
 }
 
 albums.forEach(data => {
   if(localStorage.getItem(data[0].albumName) === null) {
-    renderAudios(data);
+    renderAudios(data, popupList, state);
   }
 });
 
-findAddedAlbums()
+findAddedAlbums(albomsList);
 
-function findAddedAlbums() {
+changeThremeButton.addEventListener('click', () => changeThreme(state, pushState))
+
+headerPlaylistsButton.addEventListener('click', () => {
+  infoSection.style.display = 'none';
+  yourPlaylistsSection.style.display = 'none';
+  favoritsSection.style.display = 'none';
+  allPlaylistSection.style.display = 'block';
+  if(Array.from(allPlaylistSection.querySelector('.playlist__list').children).length === 0) {
+    albums.forEach(data => {
+      let album = createAlboms(data[0]);
+      allPlaylistSection.querySelector('.playlist__list').append(album);
+    })
+  }
+})
+
+headerHomeButton.addEventListener('click', () => {
+  infoSection.style.display = 'block';
+  yourPlaylistsSection.style.display = 'block';
+  favoritsSection.style.display = 'flex';
+  allPlaylistSection.style.display = 'none';
+  findAddedAlbums(albomsList);
+})
+
+function findAddedAlbums(list) {
   if(JSON.parse(localStorage.getItem('addedAlbums')).length != 0) {
+    if(Array.from(list.children).length != 0) {
+      Array.from(list.children).forEach(item => {
+        item.remove();
+      })
+    }
     JSON.parse(localStorage.getItem('addedAlbums')).forEach(data => {
       let album = createAlboms(data);
-      albomsList.append(album);
+      list.append(album);
     })
   }
   else {
-
+    if(list.querySelector('.playlist-item') != null) {
+      list.querySelector('.playlist-item').remove();
+    }
   }
 }
 
@@ -132,7 +162,7 @@ popupAlbum.addEventListener('click', evt => {
   }
 })
 
-function renderAudios(data) {
+function renderAudios(data, list, state) {
   data.forEach(item => {
     if(item.url != undefined) {
       const audio = new Audio(`../tracks/${item.url}`);
@@ -141,23 +171,29 @@ function renderAudios(data) {
         const newItem = { ...item, duration: audio.duration, album: data[0].albumName, autor: data[0].executor, imgSrc: data[0].link, like: false, listenTimes: 0};
         
         pushLocalStorage(newItem);
-        pushAndLoadTracks(newItem, popupList)
+        pushAndLoadTracks(newItem, list, state)
       });
     }
   })
 };
 
-function pushAndLoadTracks(track, list) {
+function pushAndLoadTracks(track, list, state) {
   const audio = new Audio(`../tracks/${track.url}`);
 
   track = {...track, audio};
 
   state.audios.push(track);
-  loadAudioData(track, list);
+  loadAudioData(track, list, state);
 }
 
-function loadAudioData(audio, list) {
+function loadAudioData(audio, list, state) {
   const {name, duration, autor} = audio;
+  const trackTemplate = document.querySelector('#track-template').content;
+  const trackFavoritsTemplate = document.querySelector('#favorit__track-template').content;
+
+  const popupShuffleButton = document.querySelector('.popup__shuffle');
+  const controlerShuffleButton = document.querySelector('.controler__shuffle');
+
   let trackElement = trackTemplate.querySelector('.popup-item').cloneNode(true);
 
   if(list === favoritsTrackList) {
@@ -191,7 +227,7 @@ function loadAudioData(audio, list) {
   trackAutor.textContent = autor;
   trackTime.textContent = audioTime(duration);
   
-  trackPlayButton.addEventListener('click', () => setCurrentItem(name));
+  trackPlayButton.addEventListener('click', () => setCurrentItem(name, state));
   trackLikeButton.addEventListener('click', () => setLikeTrack(audio));
   
   list.append(trackElement);
@@ -205,6 +241,7 @@ function setLikeTrack(audio) {
 
 function visualLikedTracks(track) {
   const { like, name } = track;
+  const controlerLikeButton = document.querySelector('.controler__like-button');
   const item = document.querySelector(`[data-id="${name}"]`);
 
   if(like) {
@@ -217,35 +254,35 @@ function visualLikedTracks(track) {
   }
 }
 
-function setCurrentItem(itemId) {
+function setCurrentItem(itemId, state) {
   const current = state.audios.find(({ name }) => itemId === name);
 
   if(!current) return;
 
   if(current === state.current) {
-    handleAudioPlay();
+    handleAudioPlay(state);
     return;
   }
 
-  pauseCurrentAudio();
+  pauseCurrentAudio(state);
 
   state.current = current;
   pushListenTimes(state.current);
-  renderCurrentItem(current);
+  renderCurrentItem(current, state);
 
   current.audio.volume = state.volume;
 
-  renderFavoritsImg(current);
-  audioUpdateHandler(current);
+  renderFavoritsImg(current, trackList);
+  audioUpdateHandler(current, state);
 }
 
-function audioUpdateHandler({audio, duration}) {
+function audioUpdateHandler({audio, duration}, state) {
   const progress = document.querySelector('.time-range');
 
   audio.play();
   state.playing = true;
 
-  visualPlayPause()
+  visualPlayPause(state)
 
   audio.addEventListener('timeupdate', ({target}) => {
     const { currentTime } = target;
@@ -262,51 +299,52 @@ function audioUpdateHandler({audio, duration}) {
       target.play();
     }
     else if(state.shuffle) {
-      handleShuffle();
+      handleShuffle(state);
     }
     else {
-      handleNext();
+      handleNext(state);
     }
   })
 }
 
 function visualAudioTime(target, currentTime, width) {
   const progress = document.querySelector('.time-range');
-
+  const controlerStartTime = document.querySelector('.time-this');
+  
   if(target.currentTime !== currentTime) {
     target.currentTime = currentTime;
   }
 
   controlerStartTime.innerHTML = audioTime(currentTime);
   progress.style.width = `${width}%`;
-}
+};
 
 function timerTrackShow(widthName) {
   timer = setInterval(showFullName, 50, (widthName));
-}
+};
 
-controlerPlayButton.addEventListener('click', () => handleAudioPlay());
-controlerNextButton.addEventListener('click', () => checkShuffleActive());
-controlerPrevButton.addEventListener('click', () => handlePrev());
-controlerRepeatButton.addEventListener('click', () => handleRepeat(controlerRepeatButton));
-controlerShuffleButton.addEventListener('click', () => nandleShuffleActive());
-popupShuffleButton.addEventListener('click', () => nandleShuffleActive());
+controlerPlayButton.addEventListener('click', () => handleAudioPlay(state));
+controlerNextButton.addEventListener('click', () => checkShuffleActive(state));
+controlerPrevButton.addEventListener('click', () => handlePrev(state));
+controlerRepeatButton.addEventListener('click', () => handleRepeat(controlerRepeatButton, state));
+controlerShuffleButton.addEventListener('click', () => nandleShuffleActive(state));
+popupShuffleButton.addEventListener('click', () => nandleShuffleActive(state));
 controlerLikeButton.addEventListener('click', () => setLikeTrack(state.current));
 controlerVolumeButton.addEventListener('click', () => {
   if(state.volume != 0) {
     state.lastVolume = state.volume;
-    handleVolume({value: 0})
+    handleVolume({value: 0}, state)
   }
   else {
-    handleVolume({value: state.lastVolume})
+    handleVolume({value: state.lastVolume}, state)
   }
 });
-popupAddRemoveButton.addEventListener('click', () => {
-  visualButtonAddRemove();
+popupAddRemoveButton.addEventListener('click', (evt) => {
+  visualButtonAddRemove(evt.target);
   pushAddedAlbum({link: popupImg.src.substring(popupImg.src.lastIndexOf('/')+1),albumName: popupTitle.textContent,executor: popupAutor.textContent})
 })
 
-function visualButtonAddRemove() {
+function visualButtonAddRemove(popupAddRemoveButton) {
   if(popupAddRemoveButton.textContent === 'add') {
     popupAddRemoveButton.textContent = 'remove';
     popupAddRemoveButton.classList.add('.popup__button-remove');
@@ -319,7 +357,7 @@ function visualButtonAddRemove() {
 
 controlerTimeInput.addEventListener('mouseup', evt => {
   let progressWight = window.getComputedStyle(controlerDiv.querySelector('.progress')).width.replace(/[a-z%]/gi, '');
-  console.log(progressWight)
+
   width = evt.layerX / progressWight * 100;
   let time = width * state.current.duration / 100;
   visualAudioTime(state.current.audio, time, width);
@@ -328,12 +366,14 @@ controlerTimeInput.addEventListener('mouseup', evt => {
 controlerVolumeNewImput.addEventListener('mouseup', evt => {
   let value = evt.layerX / 100
 
-  handleVolume({value});
+  handleVolume({value}, state);
 
   controlerVolumeValue.style.width = evt.layerX + 'px';
 })
 
 function showFullName(widthName) {
+  const controlerName = controlerDiv.querySelector('.controler__info-title');
+
   showWithd += 2;
   controlerName.style.left = -showWithd + 'px';
   if(controlerName.style.left.replace(/[a-z%]/gi, '') * -1 >= widthName + 12) {
@@ -341,7 +381,10 @@ function showFullName(widthName) {
   }
 }
 
-function visualVolume() {
+function visualVolume(state) {
+  const controlerVolumeButton = document.querySelector('.volume__button');
+  const controlerVolumeValue = document.querySelector('.volume__track-value');
+
   if(state.volume == 0) {
     controlerVolumeButton.querySelector('.volume-svg').classList.add('state-active');
     controlerVolumeButton.querySelector('.volume-svg').innerHTML = `<use href="../svg/volume_mute.svg#volume_mute"></use>`;
@@ -359,16 +402,16 @@ function visualVolume() {
   }
 }
 
-function checkShuffleActive() {
+function checkShuffleActive(state) {
   if(state.shuffle) {
-    handleShuffle();
+    handleShuffle(state);
   }
   else {
-    handleNext();
+    handleNext(state);
   }
 }
 
-function nandleShuffleActive() {
+function nandleShuffleActive(state) {
   const { shuffle } = state;
 
   visualShuffle()
@@ -378,24 +421,27 @@ function nandleShuffleActive() {
 }
 
 function visualShuffle() {
+  const popupShuffleButton = document.querySelector('.popup__shuffle');
+  const controlerShuffleButton = document.querySelector('.controler__shuffle');
+
   popupShuffleButton.querySelector('.shuffle-svg').classList.toggle('state-active');
   controlerShuffleButton.querySelector('.controler-svg').classList.toggle('state-active');
 }
 
-function handleShuffle() {
+function handleShuffle(state) {
   const children = JSON.parse(localStorage.getItem(state.current.album));
   const rand = Math.random().toFixed(1)*10;
   const i = Math.abs(children.length - 1 - rand);
-
+  
   if(state.current.name === children[i].name) {
-    setCurrentItem(children[i+1].name);
+    setCurrentItem(children[i+1].name, state);
   }
   else {
-    setCurrentItem(children[i].name);
+    setCurrentItem(children[i].name, state);
   }
 }
 
-function handleVolume({ value }) {
+function handleVolume({ value }, state) {
   const { current } = state;
 
   state.volume = value;
@@ -405,10 +451,10 @@ function handleVolume({ value }) {
 
   current.audio.volume = value;
 
-  visualVolume();
+  visualVolume(state);
 }
 
-function handleRepeat(currentTarget) {
+function handleRepeat(currentTarget, state) {
   const { repeating } = state;
   
   currentTarget.querySelector('.controler-svg').classList.toggle('state-active', !repeating);
@@ -416,7 +462,7 @@ function handleRepeat(currentTarget) {
   pushState(state);
 }
 
-function handlePrev() {
+function handlePrev(state) {
   const currentItem = JSON.parse(localStorage.getItem(state.current.album));
   const back = currentItem[currentItem.findIndex(({ name }) => state.current.name === name) - 1];
   const last = currentItem[currentItem.length - 1];
@@ -425,10 +471,10 @@ function handlePrev() {
 
   if(!itemId) return;
 
-  setCurrentItem(itemId);
+  setCurrentItem(itemId, state);
 }
 
-function handleNext() {
+function handleNext(state) {
   const currentItem = JSON.parse(localStorage.getItem(state.current.album));
   const next = currentItem[currentItem.findIndex(({ name }) => state.current.name === name) + 1];
   const first = currentItem[0];
@@ -437,22 +483,23 @@ function handleNext() {
 
   if(!itemId) return;
 
-  setCurrentItem(itemId);
+  setCurrentItem(itemId, state);
 }
 
-function handleAudioPlay() {
+function handleAudioPlay(state) {
   const { playing, current } = state;
   const { audio } = current;
 
   state.playing = !playing;
   !playing ? audio.play() : audio.pause();
-  visualPlayPause();
+  visualPlayPause(state);
   pushState(state);
 }
 
-function visualPlayPause() {
-  const currentTrack = popupAlbum.querySelector(`[data-id="${state.current.name}"]`);
+function visualPlayPause(state) {
+  const currentTrack = document.querySelector('.popup').querySelector(`[data-id="${state.current.name}"]`);
   const favoritCurrentTrack = document.querySelector(`[data-id="${state.current.name}"]`);
+  const controlerPlayButton = controlerDiv.querySelector('.controler__play-button');
   
   if(favoritLastTrack) {
     favoritLastTrack.classList.remove('is-active')
@@ -484,7 +531,7 @@ function visualPlayPause() {
   lastTrack = popupAlbum.querySelector('.is-active');
 }
 
-function pauseCurrentAudio() {
+function pauseCurrentAudio(state) {
   const { current: {audio} } = state;
 
   if(!audio) return;
@@ -493,8 +540,15 @@ function pauseCurrentAudio() {
   audio.currentTime = 0;
 }
 
-function renderCurrentItem(audio) {
+function renderCurrentItem(audio, state) {
   const {name, duration, autor, imgSrc, like} = audio;
+  const controlerDiv = document.querySelector('.controler');
+  const controlerImg = controlerDiv.querySelector('.controler-img');
+  const controlerName = controlerDiv.querySelector('.controler__info-title');
+  const controlerAutor = controlerDiv.querySelector('.controler__info-autor');
+  const controlerEndTime = controlerDiv.querySelector('.time-all');
+  const controlerLikeButton = controlerDiv.querySelector('.controler__like-button');
+  const controlerRepeatButton = controlerDiv.querySelector('.controler__repeat');
 
   if(like) {
     controlerLikeButton.querySelector('.like-svg').classList.add('state-active');
@@ -507,7 +561,7 @@ function renderCurrentItem(audio) {
     controlerRepeatButton.querySelector('.repeat-svg').classList.add('state-active');
   }
 
-  visualVolume();
+  visualVolume(state);
 
   controlerImg.src = `../images/${imgSrc}`;
   controlerAutor.textContent = autor;
@@ -536,7 +590,7 @@ function audioTime(duration) {
   return `${minutes}:${seconds}`;
 };
 
-function openPopup({link, albumName, executor}) {
+function openPopup({link, albumName, executor}, list, state) {
   if(lastAlbum !== albumName) {
     popupImg.src = `../images/${link}`;
     popupTitle.textContent = albumName;
@@ -568,7 +622,7 @@ function openPopup({link, albumName, executor}) {
       findTracks(name);
     }*/
 
-    findTracks(albumName);
+    findTracks(albumName, list, state);
   }
 
   popupAlbum.classList.add('popup_is-opened');
@@ -587,29 +641,31 @@ function closeEsc(evt) {
   }
 };
 
-function createTracksList() {
+function createTracksList(albums) {
   albums.forEach(data => {
     JSON.parse(localStorage.getItem(data[0].albumName)).forEach(track => {
       trackList.push(track);
     })
   })
 
-  findFavoritsTrack();
+  findFavoritsTrack(trackList);
 }
 
-function findFavoritsTrack() {
+function findFavoritsTrack(trackList) {
+  const favoritsTrackList = document.querySelector('.favorits__track-list');
   trackList.sort((a, b) => (b.listenTimes) - (a.listenTimes));
   trackList.splice(7);
 
   trackList.forEach(item => {
-    pushAndLoadTracks(item, favoritsTrackList);
+    pushAndLoadTracks(item, favoritsTrackList, state);
   })
 
-  renderFavoritsImg(trackList[0])
+  renderFavoritsImg(trackList[0], trackList)
 }
 
-function renderFavoritsImg(audio) {
+function renderFavoritsImg(audio, trackList) {
   const { autor, imgSrc} = audio;
+  const favoritsImgBlock = document.querySelector('.favorit__track');
   const favoritsImg = favoritsImgBlock.querySelector('.track-img');
   const favoritsName = favoritsImgBlock.querySelector('.track-title');
   const favoritsAutor = favoritsImgBlock.querySelector('.track-autor');
