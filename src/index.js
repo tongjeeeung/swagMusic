@@ -123,8 +123,10 @@ headerPlaylistsButton.addEventListener('click', () => {
   allPlaylistSection.style.display = 'block';
   if(Array.from(allPlaylistSection.querySelector('.playlist__list').children).length === 0) {
     albums.forEach(data => {
-      let album = createAlboms(data[0]);
-      allPlaylistSection.querySelector('.playlist__list').append(album);
+      if(JSON.parse(localStorage.getItem(data[0].albumName)) != null) {
+        let album = createAlboms(data[0]);
+        allPlaylistSection.querySelector('.playlist__list').append(album);
+      }
     })
   }
 })
